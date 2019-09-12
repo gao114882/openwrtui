@@ -466,5 +466,6 @@
   "Already exists": "已存在",
   "Comment": "注释",
   "Allow": "允许",
-  "Deny": "拒绝"
+  "Deny": "拒绝",
+  "Rtsp": "rtsp视频流"
 }

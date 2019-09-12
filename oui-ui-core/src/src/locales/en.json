@@ -466,5 +466,6 @@
   "Already exists": "Already exists",
   "Comment": "Comment",
   "Allow": "Allow",
-  "Deny": "Deny"
+  "Deny": "Deny",
+  "Rtsp": "rtsp"
 }
