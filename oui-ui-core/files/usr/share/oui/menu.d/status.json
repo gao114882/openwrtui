@@ -9,18 +9,6 @@
         "view": "status/routes",
         "index": 20
     },
-    //"status/syslog": {
-    //    "title": "System Log",
-    //    "acls": [ "status" ],
-    //    "view": "status/syslog",
-    //    "index": 30
-    //},
-    //"status/dmesg": {
-    //    "title": "Kernel Log",
-    //    "acls": [ "status" ],
-    //    "view": "status/dmesg",
-    //    "index": 40
-    //},
     "status/processes": {
         "title": "Processes",
         "acls": [ "status" ],
