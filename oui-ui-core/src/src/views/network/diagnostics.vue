@@ -1,12 +1,24 @@
 <template>
   <div>
-    <el-input v-model="host" style="width:240px"></el-input>
-    <el-select v-model="tool" style="width:140px">
-      <el-option v-for="tool in tools" :key="tool[0]" :value="tool[0]" :label="tool[1]"></el-option>
+    <el-input v-model="host"
+              style="width:240px"></el-input>
+    <el-select v-model="tool"
+               style="width:140px">
+      <el-option v-for="tool in tools"
+                 :key="tool[0]"
+                 :value="tool[0]"
+                 :label="tool[1]"></el-option>
     </el-select>
-    <el-button type="primary" @click="test">>></el-button>
-    <el-input v-if="stdout !== ''" style="margin-top: 10px" type="textarea" autosize readonly :value="stdout"></el-input>
-    <span v-if="stderr !== ''" style="color: red; display: block">{{ stderr }}</span>
+    <el-button type="primary"
+               @click="test">>></el-button>
+    <el-input v-if="stdout !== ''"
+              style="margin-top: 10px"
+              type="textarea"
+              autosize
+              readonly
+              :value="stdout"></el-input>
+    <span v-if="stderr !== ''"
+          style="color: red; display: block">{{ stderr }}</span>
   </div>
 </template>
 
@@ -23,19 +35,19 @@ export default {
   },
   methods: {
     runPing(name) {
-      return this.$ubus.call('oui.network', 'ping', {name});
+      return this.$ubus.call('oui.network', 'ping', { name });
     },
     runPing6(name) {
-      return this.$ubus.call('oui.network', 'ping6', {name});
+      return this.$ubus.call('oui.network', 'ping6', { name });
     },
     runTraceroute(name) {
-      return this.$ubus.call('oui.network', 'traceroute', {name});
+      return this.$ubus.call('oui.network', 'traceroute', { name });
     },
     runTraceroute6(name) {
-      return this.$ubus.call('oui.network', 'traceroute6', {name});
+      return this.$ubus.call('oui.network', 'traceroute6', { name });
     },
     runNslookup(name) {
-      return this.$ubus.call('oui.network', 'nslookup', {name});
+      return this.$ubus.call('oui.network', 'nslookup', { name });
     },
     test() {
       const loading = this.$getLoading();

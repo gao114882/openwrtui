@@ -1,5 +1,8 @@
 <template>
-  <el-button style="margin-top: 10px" type="primary" size="mini" @click="handleAdd">{{ $t('Add') }}</el-button>
+  <el-button style="margin-top: 10px"
+             type="primary"
+             size="mini"
+             @click="handleAdd">{{ $t('Add') }}</el-button>
 </template>
 
 <script>

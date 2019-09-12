@@ -14,12 +14,17 @@ export default {
   },
   methods: {
     convertFromUCI(value) {
-      if (typeof(value) === 'undefined')
-        value = [];
-      return value;
+      if (typeof value === 'undefined') value = []
+      return value
     },
     view(prop) {
-      return <uci-dlist prop={prop} v-model={this.form[prop]} suggestions={this.suggestions}/>;
+      return (
+        <uci-dlist
+          prop={prop}
+          v-model={this.form[prop]}
+          suggestions={this.suggestions}
+        />
+      )
     }
   }
 }

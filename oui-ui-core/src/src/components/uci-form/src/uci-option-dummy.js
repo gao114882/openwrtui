@@ -5,11 +5,9 @@ export default {
   mixins: [mixin],
   methods: {
     view(prop) {
-      return <span>{this.form[prop]}</span>;
+      return <span>{this.form[prop]}</span>
     },
-    _save() {
-    },
-    _apply() {
-    }
+    _save() {},
+    _apply() {}
   }
 }

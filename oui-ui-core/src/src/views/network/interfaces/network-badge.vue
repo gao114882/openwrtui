@@ -1,6 +1,7 @@
 <template>
   <div class="oui-network-badge">
-    <div class="head" :style="{backgroundColor: color}">{{ iface }}</div>
+    <div class="head"
+         :style="{backgroundColor: color}">{{ iface }}</div>
     <div>{{ device }}</div>
   </div>
 </template>
@@ -29,14 +30,14 @@ export default {
 
 <style lang="scss">
 .oui-network-badge {
-  border: 1px solid #DDDDDD;
+  border: 1px solid #dddddd;
   border-radius: 3px;
   background-color: white;
   text-align: center;
   white-space: nowrap;
 
   .head {
-    border-bottom: 1px solid #DDDDDD;
+    border-bottom: 1px solid #dddddd;
     padding: 0 3px;
   }
 }

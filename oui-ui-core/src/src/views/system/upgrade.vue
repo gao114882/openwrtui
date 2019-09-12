@@ -1,23 +1,57 @@
 <template>
   <div>
-    <el-card :header="$t('Backup / Restore')" style="margin-bottom: 15px">
-      <form ref="backup" method="POST" action="/cgi-bin/oui-backup">
-        <input v-show="false" type="text" :value="sid" name="sessionid" />
+    <el-card :header="$t('Backup / Restore')"
+             style="margin-bottom: 15px">
+      <form ref="backup"
+            method="POST"
+            action="/cgi-bin/oui-backup">
+        <input v-show="false"
+               type="text"
+               :value="sid"
+               name="sessionid" />
       </form>
       <p>{{ $t('Backup-Restore-desc') }}</p>
-      <el-button type="primary" size="small" @click="generateArchive">{{ $t('Generate archive') }}</el-button>
-      <el-button type="danger" size="small" @click="performReset">{{ $t('Perform reset') }}</el-button>
+      <el-button type="primary"
+                 size="small"
+                 @click="generateArchive">{{ $t('Generate archive') }}</el-button>
+      <el-button type="danger"
+                 size="small"
+                 @click="performReset">{{ $t('Perform reset') }}</el-button>
       <p>{{ $t('To restore configuration files, you can upload a previously generated backup archive here.') }}</p>
-      <el-upload ref="archive" action="/cgi-bin/oui-upload" :on-success="onUploadArchiveSuccess" :file-list="fileListArchive" :auto-upload="false" :limit="1" :data="{filename: '/tmp/backup.tar.gz', sessionid: sid}" style="width: 600px">
-        <el-button slot="trigger" size="small" type="primary">{{ $t('Select File') }}</el-button>
-        <el-button style="margin-left: 10px;" size="small" type="success" @click="uploadFile('archive')">{{ $t('Upload archive...') }}</el-button>
+      <el-upload ref="archive"
+                 action="/cgi-bin/oui-upload"
+                 :on-success="onUploadArchiveSuccess"
+                 :file-list="fileListArchive"
+                 :auto-upload="false"
+                 :limit="1"
+                 :data="{filename: '/tmp/backup.tar.gz', sessionid: sid}"
+                 style="width: 600px">
+        <el-button slot="trigger"
+                   size="small"
+                   type="primary">{{ $t('Select File') }}</el-button>
+        <el-button style="margin-left: 10px;"
+                   size="small"
+                   type="success"
+                   @click="uploadFile('archive')">{{ $t('Upload archive...') }}</el-button>
       </el-upload>
     </el-card>
     <el-card :header="$t('Flash new firmware image')">
       <p>{{ $t('Upgrade-Firmware-desc') }}</p>
-      <el-upload ref="firmware" action="/cgi-bin/oui-upload" :on-success="onUploadFirmwareSuccess" :file-list="fileListFirmware" :auto-upload="false" :limit="1" :data="{filename: '/tmp/firmware.bin', sessionid: sid}" style="width: 600px">
-        <el-button slot="trigger" size="small" type="primary">{{ $t('Select File') }}</el-button>
-        <el-button style="margin-left: 10px;" size="small" type="success" @click="uploadFile('firmware')">{{ $t('Upload Firmware...') }}</el-button>
+      <el-upload ref="firmware"
+                 action="/cgi-bin/oui-upload"
+                 :on-success="onUploadFirmwareSuccess"
+                 :file-list="fileListFirmware"
+                 :auto-upload="false"
+                 :limit="1"
+                 :data="{filename: '/tmp/firmware.bin', sessionid: sid}"
+                 style="width: 600px">
+        <el-button slot="trigger"
+                   size="small"
+                   type="primary">{{ $t('Select File') }}</el-button>
+        <el-button style="margin-left: 10px;"
+                   size="small"
+                   type="success"
+                   @click="uploadFile('firmware')">{{ $t('Upload Firmware...') }}</el-button>
       </el-upload>
     </el-card>
   </div>
@@ -41,7 +75,7 @@ export default {
       return this.$ubus.call('rpc-sys', 'upgrade_test');
     },
     startUpgrade(keep) {
-      return this.$ubus.call('rpc-sys', 'upgrade_start', {keep});
+      return this.$ubus.call('rpc-sys', 'upgrade_start', { keep });
     },
     cleanUpgrade() {
       return this.$ubus.call('rpc-sys', 'upgrade_clean');
@@ -64,7 +98,7 @@ export default {
     },
     onUploadArchiveSuccess(res) {
       let title = this.$t('Backup restore');
-      let content = '<p>' + this.$t('backup archive was uploaded completely', {btn: this.$t('OK')}) + '</p>';
+      let content = '<p>' + this.$t('backup archive was uploaded completely', { btn: this.$t('OK') }) + '</p>';
       content += '<ul>';
       content += `<li><strong>${this.$t('Checksum')}: </strong>${res.checksum}</li>`;
 
@@ -101,7 +135,7 @@ export default {
       this.testUpgrade().then(res => {
         if (res.code === 0) {
           let title = this.$t('Verify firmware');
-          let content = '<p>' + this.$t('The firmware image was uploaded completely', {btn: this.$t('OK')}) + '</p>'
+          let content = '<p>' + this.$t('The firmware image was uploaded completely', { btn: this.$t('OK') }) + '</p>'
           content += '<ul>';
           content += `<li><strong>${this.$t('Checksum')}: </strong>${info.checksum}</li>`;
 

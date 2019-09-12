@@ -1,26 +1,53 @@
 <template>
-  <uci-form config="rpcd" @applied="onApplied">
-    <uci-section type="login" addable :teasers="['username', 'shadow']" :add="addUser">
-      <uci-option-dummy :label="$t('Username')" name="username"></uci-option-dummy>
-      <uci-option-switch :label="$t('Use the Linux system user password')" name="shadow" :load="isShadow" @change="shadowChanged" :save="saveShadow"></uci-option-switch>
-      <uci-option-input :label="$t('Password')" name="password" depend="!shadow" required password :description="$t('acl-password-description')" :save="savePasswd"></uci-option-input>
-      <uci-option :label="$t('User ACLs')" name="acls" :load="loadAcls" :save="saveAcls" :description="$t('acl-acl-description')">
+  <uci-form config="rpcd"
+            @applied="onApplied">
+    <uci-section type="login"
+                 addable
+                 :teasers="['username', 'shadow']"
+                 :add="addUser">
+      <uci-option-dummy :label="$t('Username')"
+                        name="username"></uci-option-dummy>
+      <uci-option-switch :label="$t('Use the Linux system user password')"
+                         name="shadow"
+                         :load="isShadow"
+                         @change="shadowChanged"
+                         :save="saveShadow"></uci-option-switch>
+      <uci-option-input :label="$t('Password')"
+                        name="password"
+                        depend="!shadow"
+                        required
+                        password
+                        :description="$t('acl-password-description')"
+                        :save="savePasswd"></uci-option-input>
+      <uci-option :label="$t('User ACLs')"
+                  name="acls"
+                  :load="loadAcls"
+                  :save="saveAcls"
+                  :description="$t('acl-acl-description')">
         <template v-slot="{value}">
-          <el-table :data="value || []" class="oui-acls-table">
-            <el-table-column :label="$t('ACL Group')" prop="description"></el-table-column>
-            <el-table-column label="N" width="30">
+          <el-table :data="value || []"
+                    class="oui-acls-table">
+            <el-table-column :label="$t('ACL Group')"
+                             prop="description"></el-table-column>
+            <el-table-column label="N"
+                             width="30">
               <template v-slot="{row}">
-                <el-radio v-model="row.acl" label="n"></el-radio>
+                <el-radio v-model="row.acl"
+                          label="n"></el-radio>
               </template>
             </el-table-column>
-            <el-table-column label="R" width="30">
+            <el-table-column label="R"
+                             width="30">
               <template v-slot="{row}">
-                <el-radio v-model="row.acl" label="r"></el-radio>
+                <el-radio v-model="row.acl"
+                          label="r"></el-radio>
               </template>
             </el-table-column>
-            <el-table-column label="F" width="30">
+            <el-table-column label="F"
+                             width="30">
               <template v-slot="{row}">
-                <el-radio v-model="row.acl" label="f"></el-radio>
+                <el-radio v-model="row.acl"
+                          label="f"></el-radio>
               </template>
             </el-table-column>
           </el-table>
@@ -39,7 +66,7 @@ export default {
   },
   methods: {
     cryptPassword(data) {
-      return this.$ubus.call('oui.ui', 'crypt', {data});
+      return this.$ubus.call('oui.ui', 'crypt', { data });
     },
     callACLs() {
       return this.$ubus.call('oui.ui', 'acls');
@@ -71,7 +98,7 @@ export default {
           this.$uci.set('rpcd', sid, 'password', pw);
       } else {
         return new Promise(resolve => {
-          this.cryptPassword(pw).then(({crypt}) => {
+          this.cryptPassword(pw).then(({ crypt }) => {
             if (crypt !== this.$uci.get('rpcd', sid, 'password'))
               this.$uci.set('rpcd', sid, 'password', crypt);
             resolve();

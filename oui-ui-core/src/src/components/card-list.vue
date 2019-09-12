@@ -1,6 +1,8 @@
 <template>
-  <el-card :header="title" style="margin-bottom: 15px">
-    <el-table :show-header="false" :data="data">
+  <el-card :header="title"
+           style="margin-bottom: 15px">
+    <el-table :show-header="false"
+              :data="data">
       <el-table-column prop="name"></el-table-column>
       <el-table-column prop="value"></el-table-column>
     </el-table>
@@ -22,7 +24,7 @@ export default {
   watch: {
     list() {
       this.data = this.list.map(e => {
-        return {name: e[0], value: e[1]};
+        return { name: e[0], value: e[1] };
       });
     }
   }

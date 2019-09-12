@@ -1,5 +1,5 @@
 export default {
   mounted() {
-    this.$emit('mounted', this);
+    this.$emit('mounted', this)
   }
 }

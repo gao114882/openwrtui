@@ -1,44 +1,43 @@
 export default {
   install(Vue) {
-    Vue.prototype.$bus = new Vue();
+    Vue.prototype.$bus = new Vue()
 
     Vue.prototype.$getParent = function(name, depth) {
-      let parent = this.$parent;
+      let parent = this.$parent
 
-      if (typeof(name) === 'undefined')
-        return parent;
+      if (typeof name === 'undefined') return parent
 
-      if (typeof(depth) === 'undefined')
-        depth = 20;
+      if (typeof depth === 'undefined') depth = 20
 
-      while (typeof(parent) !== 'undefined' && depth-- > 0) {
-        if (parent.$options.name === name)
-          return parent;
+      while (typeof parent !== 'undefined' && depth-- > 0) {
+        if (parent.$options.name === name) return parent
 
-        if (depth === 0)
-          return null;
+        if (depth === 0) return null
 
-        parent = parent.$parent;
+        parent = parent.$parent
       }
 
-      return parent;
+      return parent
     }
 
     Vue.prototype.$reconnect = function(title) {
-      const loading = this.$getLoading(title);
+      const loading = this.$getLoading(title)
 
-      const vm = this;
+      const vm = this
 
       function check() {
-        vm.$ubus.call('oui.ui', 'lang', {}, 1).then(() => {
-          loading.close();
-          vm.$router.push('/login');
-        }).catch(() => {
-          window.setTimeout(check, 1000);
-        });
+        vm.$ubus
+          .call('oui.ui', 'lang', {}, 1)
+          .then(() => {
+            loading.close()
+            vm.$router.push('/login')
+          })
+          .catch(() => {
+            window.setTimeout(check, 1000)
+          })
       }
 
-      window.setTimeout(check, 5000);
+      window.setTimeout(check, 5000)
     }
 
     Vue.prototype.$getLoading = function(text) {
@@ -46,7 +45,7 @@ export default {
         text: text || this.$t('Loading...'),
         spinner: 'el-icon-loading',
         background: 'rgba(0, 0, 0, 0.7)'
-      });
+      })
     }
   }
 }

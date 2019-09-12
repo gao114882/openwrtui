@@ -1,7 +1,21 @@
 <template>
   <div>
-    <uci-option-input tab="advanced" :label="$t('LCP echo failure threshold')" name="_keepalive_failure" placeholder="0" rules="uinteger" :load="loadKF" :save="saveKeepalive" @change="onKFChange"></uci-option-input>
-    <uci-option-input tab="advanced" :label="$t('LCP echo interval')" name="_keepalive_interval" placeholder="5" :rules="{type: 'uinteger', min: 1}" :load="loadKI" :save="saveKeepalive" @change="onKIChange"></uci-option-input>
+    <uci-option-input tab="advanced"
+                      :label="$t('LCP echo failure threshold')"
+                      name="_keepalive_failure"
+                      placeholder="0"
+                      rules="uinteger"
+                      :load="loadKF"
+                      :save="saveKeepalive"
+                      @change="onKFChange"></uci-option-input>
+    <uci-option-input tab="advanced"
+                      :label="$t('LCP echo interval')"
+                      name="_keepalive_interval"
+                      placeholder="5"
+                      :rules="{type: 'uinteger', min: 1}"
+                      :load="loadKI"
+                      :save="saveKeepalive"
+                      @change="onKIChange"></uci-option-input>
   </div>
 </template>
 

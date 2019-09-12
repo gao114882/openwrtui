@@ -1,5 +1,11 @@
 <template>
-  <uci-option-list :label="$t('Interface')" :name="name" uci-option="ifname" :load="load" :options="devices" :depend="depend" :multiple="multiple"></uci-option-list>
+  <uci-option-list :label="$t('Interface')"
+                   :name="name"
+                   uci-option="ifname"
+                   :load="load"
+                   :options="devices"
+                   :depend="depend"
+                   :multiple="multiple"></uci-option-list>
 </template>
 
 <script>

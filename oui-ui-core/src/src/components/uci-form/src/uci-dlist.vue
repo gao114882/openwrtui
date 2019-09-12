@@ -1,11 +1,30 @@
 <template>
   <div class="oui-uci-dlist">
-    <el-tag :closable="!readonly" v-for="tag in value" :key="tag" :disable-transitions="false" @close="handleDelDlist(tag)">{{ tag }}</el-tag>
+    <el-tag :closable="!readonly"
+            v-for="tag in value"
+            :key="tag"
+            :disable-transitions="false"
+            @close="handleDelDlist(tag)">{{ tag }}</el-tag>
     <template v-if="inputVisible">
-      <el-autocomplete v-if="hasSuggestions" size="small" ref="input" v-model="inputValue" @keyup.enter.native="handleinputConfirm" :fetch-suggestions="fetchSuggestions" @blur="handleinputConfirm"></el-autocomplete>
-      <el-input v-else size="small" ref="input" v-model="inputValue" @keyup.enter.native="handleinputConfirm" @blur="handleinputConfirm"></el-input>
+      <el-autocomplete v-if="hasSuggestions"
+                       size="small"
+                       ref="input"
+                       v-model="inputValue"
+                       @keyup.enter.native="handleinputConfirm"
+                       :fetch-suggestions="fetchSuggestions"
+                       @blur="handleinputConfirm"></el-autocomplete>
+      <el-input v-else
+                size="small"
+                ref="input"
+                v-model="inputValue"
+                @keyup.enter.native="handleinputConfirm"
+                @blur="handleinputConfirm"></el-input>
     </template>
-    <el-button v-else size="mini" type="primary" plain @click="showInput">+ {{ $t('Add') }}</el-button>
+    <el-button v-else
+               size="mini"
+               type="primary"
+               plain
+               @click="showInput">+ {{ $t('Add') }}</el-button>
   </div>
 </template>
 
@@ -50,7 +69,7 @@ export default {
         return (suggestion.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
       }) : suggestions;
       cb(results.map(r => {
-        return {value: r};
+        return { value: r };
       }));
     },
     handleDelDlist(tag) {

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import {session} from './plugins/session'
-import {ubus} from './plugins/ubus'
+import { session } from './plugins/session'
+import { ubus } from './plugins/ubus'
 import store from './store'
 import i18n from './i18n'
 
@@ -21,7 +21,7 @@ const router = new Router({
         {
           path: 'home',
           component: () => import('@/views/home.vue'),
-          meta:  {
+          meta: {
             title: 'Home'
           }
         }
@@ -38,43 +38,41 @@ function beforeEach(to, next) {
   if (to.path !== '/login') {
     session.isAlive().then(alive => {
       if (alive) {
-        session.startHeartbeat();
+        session.startHeartbeat()
 
         if (!session.aclCache) {
           session.updateACLs().then(() => {
-            next();
-          });
+            next()
+          })
         } else {
-          next();
+          next()
         }
       } else {
-        next('/login');
+        next('/login')
       }
-    });
+    })
   } else {
-    next();
+    next()
   }
 }
 
 router.beforeEach((to, from, next) => {
   if (!store.state.lang) {
-    ubus.call('oui.ui', 'lang').then(({lang}) => {
-      store.commit('setLang', lang);
-      if (lang === 'auto')
-        lang = navigator.language;
-      i18n.locale = lang;
+    ubus.call('oui.ui', 'lang').then(({ lang }) => {
+      store.commit('setLang', lang)
+      if (lang === 'auto') lang = navigator.language
+      i18n.locale = lang
 
-      beforeEach(to, next);
-    });
+      beforeEach(to, next)
+    })
   } else {
-    beforeEach(to, next);
+    beforeEach(to, next)
   }
-});
+})
 
 router.onError(err => {
-  if (err.code !== 'MODULE_NOT_FOUND')
-    throw err
-  router.push('/404');
-});
+  if (err.code !== 'MODULE_NOT_FOUND') throw err
+  router.push('/404')
+})
 
 export default router

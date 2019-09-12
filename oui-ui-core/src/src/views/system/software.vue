@@ -1,42 +1,79 @@
 <template>
   <div>
     <el-card style=" margin-bottom: 10px">
-      <el-form label-width="200px" style="max-width: 600px">
+      <el-form label-width="200px"
+               style="max-width: 600px">
         <el-form-item :label="$t('Used space')">
-          <el-progress :text-inside="true" :stroke-width="20" :percentage="diskUsedPercentage"></el-progress>
+          <el-progress :text-inside="true"
+                       :stroke-width="20"
+                       :percentage="diskUsedPercentage"></el-progress>
           <span>{{ diskUsedDetailed }}</span>
         </el-form-item>
         <el-form-item :label="$t('Update package lists')">
-          <el-button type="primary" size="small" @click="updatePackage">{{ $t('Start update...') }}</el-button>
+          <el-button type="primary"
+                     size="small"
+                     @click="updatePackage">{{ $t('Start update...') }}</el-button>
         </el-form-item>
         <el-form-item :label="$t('Install package directly')">
           <el-row>
-            <el-col :span="20"><el-input v-model="packageName" :placeholder="$t('Enter URL or name...')"></el-input></el-col>
-            <el-col :span="4"><el-button type="primary" @click="installRemovePackage(packageName, false)">>></el-button></el-col>
+            <el-col :span="20">
+              <el-input v-model="packageName"
+                        :placeholder="$t('Enter URL or name...')"></el-input>
+            </el-col>
+            <el-col :span="4">
+              <el-button type="primary"
+                         @click="installRemovePackage(packageName, false)">>></el-button>
+            </el-col>
           </el-row>
         </el-form-item>
         <el-form-item :label="$t('Filter packages')">
-          <el-input v-model="filter" :placeholder="$t('Filter packages...')" @keyup.enter.native="fetchPackageList(0)"></el-input>
+          <el-input v-model="filter"
+                    :placeholder="$t('Filter packages...')"
+                    @keyup.enter.native="fetchPackageList(0)"></el-input>
           <el-checkbox v-model="displayInstalled">{{ $t('Display only installed packages') }}</el-checkbox>
         </el-form-item>
       </el-form>
     </el-card>
     <el-card>
       <div slot="header">
-        <el-pagination background layout="prev, pager, next" :page-size="limit" :total="total" :current-page.sync="currentPage"></el-pagination>
+        <el-pagination background
+                       layout="prev, pager, next"
+                       :page-size="limit"
+                       :total="total"
+                       :current-page.sync="currentPage"></el-pagination>
       </div>
-      <el-table :data="packages" v-loading="loading" :element-loading-text="$t('Loading...')"  element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.8)">
-        <el-table-column prop="name" :label="$t('Software-Package')" width="200"></el-table-column>
-        <el-table-column prop="version" :label="$t('Version')" width="200" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="size" :label="$t('Size') + '(KB)'" width="100"></el-table-column>
-        <el-table-column prop="description" :label="$t('Description')" show-overflow-tooltip>
+      <el-table :data="packages"
+                v-loading="loading"
+                :element-loading-text="$t('Loading...')"
+                element-loading-spinner="el-icon-loading"
+                element-loading-background="rgba(0, 0, 0, 0.8)">
+        <el-table-column prop="name"
+                         :label="$t('Software-Package')"
+                         width="200"></el-table-column>
+        <el-table-column prop="version"
+                         :label="$t('Version')"
+                         width="200"
+                         show-overflow-tooltip></el-table-column>
+        <el-table-column prop="size"
+                         :label="$t('Size') + '(KB)'"
+                         width="100"></el-table-column>
+        <el-table-column prop="description"
+                         :label="$t('Description')"
+                         show-overflow-tooltip>
         </el-table-column>
-        <el-table-column label="#" width="200">
+        <el-table-column label="#"
+                         width="200">
           <template v-slot="{ row }">
             <div style="display: flex;">
-              <el-button :type="row.installed ? 'success' : 'danger'" size="mini" @click="installRemovePackage(row.name, row.installed)">{{ row.installed ? $t('Installed') : $t('Not installed') }}</el-button>
-              <el-tooltip v-if="row.new_version" placement="top" :content="$t('Can be upgrade to', {ver: row.new_version})">
-                <el-button type="primary" size="mini" @click="installRemovePackage(row.name, row.installed, row.new_version)">{{ $t('Upgradable') }}</el-button>
+              <el-button :type="row.installed ? 'success' : 'danger'"
+                         size="mini"
+                         @click="installRemovePackage(row.name, row.installed)">{{ row.installed ? $t('Installed') : $t('Not installed') }}</el-button>
+              <el-tooltip v-if="row.new_version"
+                          placement="top"
+                          :content="$t('Can be upgrade to', {ver: row.new_version})">
+                <el-button type="primary"
+                           size="mini"
+                           @click="installRemovePackage(row.name, row.installed, row.new_version)">{{ $t('Upgradable') }}</el-button>
               </el-tooltip>
             </div>
           </template>
@@ -81,14 +118,14 @@ export default {
   methods: {
     doFetchPackageList(cmd, offset, limit, pattern) {
       return new Promise((resolve, reject) => {
-        this.$ubus.call('oui.opkg', cmd, {offset, limit, pattern}).then(r1 => {
+        this.$ubus.call('oui.opkg', cmd, { offset, limit, pattern }).then(r1 => {
           const total = r1.total;
           const packages = r1.packages;
 
-          if (typeof(offset) === 'undefined')
+          if (typeof (offset) === 'undefined')
             offset = 0;
 
-          if (typeof(limit) === 'undefined' || limit === 0 || limit > total)
+          if (typeof (limit) === 'undefined' || limit === 0 || limit > total)
             limit = total;
 
           if (packages.length < limit) {
@@ -147,7 +184,7 @@ export default {
       });
     },
     doInstallRemovePackage(name, cmd) {
-      return this.$ubus.call('oui.opkg', cmd, {package: name});
+      return this.$ubus.call('oui.opkg', cmd, { package: name });
     },
     showStatus(res, title) {
       let msg = '';
@@ -159,7 +196,7 @@ export default {
         msg += `<pre style="background-color: #f5f5f5; color: #F56C6C">${res.stderr}</pre>`;
 
       if (res.code)
-        msg += this.$t('Package manager failed with status', {code: res.code});
+        msg += this.$t('Package manager failed with status', { code: res.code });
       else
         msg += this.$t('Package manager finished successfully.');
 
@@ -188,12 +225,12 @@ export default {
         title = 'Upgrading package';
         msg = 'Really upgrade package';
         cmd = 'upgrade';
-        msg = this.$t(msg, {name: name, ver: new_version})
+        msg = this.$t(msg, { name: name, ver: new_version })
       } else {
-        msg = this.$t(msg, {name: name})
+        msg = this.$t(msg, { name: name })
       }
 
-      title = this.$t(title, {name: name})
+      title = this.$t(title, { name: name })
 
       this.$confirm(msg, title, {
         type: 'info'

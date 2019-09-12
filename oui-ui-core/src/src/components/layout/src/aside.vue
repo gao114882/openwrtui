@@ -4,15 +4,27 @@
       <div class="logo-name">
         <router-link to="/">{{ hostname }}</router-link>
       </div>
-      <el-menu ref="navmenu" :default-active="$route.path" background-color="#03152A" text-color="rgba(255,255,255,.8)" active-text-color="#ffffff" router unique-opened>
+      <el-menu ref="navmenu"
+               :default-active="$route.path"
+               background-color="#03152A"
+               text-color="rgba(255,255,255,.8)"
+               active-text-color="#ffffff"
+               router
+               unique-opened>
         <template v-for="menu in menus">
-          <el-submenu v-if="menu.children" :key="menu.path" :index="menu.path">
+          <el-submenu v-if="menu.children"
+                      :key="menu.path"
+                      :index="menu.path">
             <template slot="title">
               <span slot="title">{{ $t(menu.title) }}</span>
             </template>
-            <el-menu-item v-for="submenu in menu.children" :key="submenu.path" :index="submenu.path">{{ $t(submenu.title) }}</el-menu-item>
+            <el-menu-item v-for="submenu in menu.children"
+                          :key="submenu.path"
+                          :index="submenu.path">{{ $t(submenu.title) }}</el-menu-item>
           </el-submenu>
-          <el-menu-item v-else :key="menu.path" :index="menu.path">{{ $t(menu.title) }}</el-menu-item>
+          <el-menu-item v-else
+                        :key="menu.path"
+                        :index="menu.path">{{ $t(menu.title) }}</el-menu-item>
         </template>
       </el-menu>
     </el-aside>
@@ -92,7 +104,7 @@ export default {
     }
 
     .el-menu-item.is-active {
-      background-color: #56a9ff !important
+      background-color: #56a9ff !important;
     }
   }
 }

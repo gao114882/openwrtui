@@ -3,27 +3,43 @@
     <el-row>
       <el-col :span="18">{{ location }}</el-col>
       <el-col :span="6">
-        <el-dropdown size="small" @command="showInput">
-          <el-button type="primary" size="small">{{ ('New') }}<i class="el-icon-arrow-down el-icon--right"></i></el-button>
+        <el-dropdown size="small"
+                     @command="showInput">
+          <el-button type="primary"
+                     size="small">{{ ('New') }}<i class="el-icon-arrow-down el-icon--right"></i></el-button>
           <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command="newfile"><img style="vertical-align: text-bottom; margin-right: 2px" src="/icons/file.png" />{{ ('File') }}</el-dropdown-item>
-              <el-dropdown-item command="newfolder"><img style="vertical-align: text-bottom; margin-right: 2px" src="/icons/folder.png" />{{ ('Folder') }}</el-dropdown-item>
+            <el-dropdown-item command="newfile"><img style="vertical-align: text-bottom; margin-right: 2px"
+                   src="/icons/file.png" />{{ ('File') }}</el-dropdown-item>
+            <el-dropdown-item command="newfolder"><img style="vertical-align: text-bottom; margin-right: 2px"
+                   src="/icons/folder.png" />{{ ('Folder') }}</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-col>
     </el-row>
-    <ul style="padding-left: 0; list-style-type: none" class="oui-filebrowser">
-      <li @click="readdir('..')" style="cursor: pointer">
-        <img style="vertical-align: bottom; margin-right: 2px" src="/icons/parent-folder.png" />
+    <ul style="padding-left: 0; list-style-type: none"
+        class="oui-filebrowser">
+      <li @click="readdir('..')"
+          style="cursor: pointer">
+        <img style="vertical-align: bottom; margin-right: 2px"
+             src="/icons/parent-folder.png" />
         <span>..</span>
       </li>
-      <li v-for="f in files" :key="f.name" @click="readdir(f)" style="cursor: pointer" :class="{selected: selected === f.path}">
-        <img style="vertical-align: bottom; margin-right: 2px" :src="f.dir ? '/icons/folder.png' : '/icons/file.png'" />
+      <li v-for="f in files"
+          :key="f.name"
+          @click="readdir(f)"
+          style="cursor: pointer"
+          :class="{selected: selected === f.path}">
+        <img style="vertical-align: bottom; margin-right: 2px"
+             :src="f.dir ? '/icons/folder.png' : '/icons/file.png'" />
         <span>{{ f.name }}</span>
       </li>
       <li v-if="newType">
-        <img style="vertical-align: bottom; margin-right: 2px" :src="(newType === 'file') ? '/icons/file.png' : '/icons/folder.png'" />
-        <input ref="input" v-model="newFileName" @keyup.enter="newFile" @blur="newFile" />
+        <img style="vertical-align: bottom; margin-right: 2px"
+             :src="(newType === 'file') ? '/icons/file.png' : '/icons/folder.png'" />
+        <input ref="input"
+               v-model="newFileName"
+               @keyup.enter="newFile"
+               @blur="newFile" />
       </li>
     </ul>
   </div>
@@ -56,7 +72,7 @@ export default {
         this.location = file.path + '/';
       }
 
-      this.$ubus.call('oui.system', 'read_dir', {path: this.location}).then(r => {
+      this.$ubus.call('oui.system', 'read_dir', { path: this.location }).then(r => {
         this.files = r.files;
       });
     },
@@ -88,7 +104,7 @@ export default {
 
         const path = this.location + name;
 
-        this.$ubus.call('oui.system', 'new_file', {path: path, dir: isDir}).then(r => {
+        this.$ubus.call('oui.system', 'new_file', { path: path, dir: isDir }).then(r => {
           if (r.r === 0) {
             this.files.push({
               name: name,
@@ -116,11 +132,11 @@ export default {
 <style lang="scss">
 .oui-filebrowser {
   li:hover {
-    background-color: #CCE8FF80;
+    background-color: #cce8ff80;
   }
 
   .selected {
-    background-color: #CCE8FF;
+    background-color: #cce8ff;
   }
 }
 </style>

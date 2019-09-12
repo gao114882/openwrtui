@@ -1,8 +1,14 @@
 <template>
   <div>
-    <CardTable title="ARP" :columns="arp.columns" :data="arp.data"></CardTable>
-    <CardTable :title="$t('Active IPv4-Routes')" :columns="routes.columns" :data="routes.data"></CardTable>
-    <CardTable :title="$t('Active IPv6-Routes')" :columns="routes6.columns" :data="routes6.data"></CardTable>
+    <CardTable title="ARP"
+               :columns="arp.columns"
+               :data="arp.data"></CardTable>
+    <CardTable :title="$t('Active IPv4-Routes')"
+               :columns="routes.columns"
+               :data="routes.data"></CardTable>
+    <CardTable :title="$t('Active IPv6-Routes')"
+               :columns="routes6.columns"
+               :data="routes6.data"></CardTable>
   </div>
 </template>
 
@@ -13,28 +19,28 @@ export default {
     return {
       arp: {
         columns: [
-          {key: 'ipaddr', title: this.$t('IPv4-Address')},
-          {key: 'macaddr', title: this.$t('MAC-Address')},
-          {key: 'device', title: this.$t('Device')}
+          { key: 'ipaddr', title: this.$t('IPv4-Address') },
+          { key: 'macaddr', title: this.$t('MAC-Address') },
+          { key: 'device', title: this.$t('Device') }
         ],
         data: []
       },
       routes: {
         columns: [
-          {key: 'target', title: this.$t('Target')},
-          {key: 'nexthop', title: this.$t('Nexthop')},
-          {key: 'metric', title: this.$t('Metric')},
-          {key: 'device', title: this.$t('Device')}
+          { key: 'target', title: this.$t('Target') },
+          { key: 'nexthop', title: this.$t('Nexthop') },
+          { key: 'metric', title: this.$t('Metric') },
+          { key: 'device', title: this.$t('Device') }
         ],
         data: []
       },
       routes6: {
         columns: [
-          {key: 'target', title: this.$t('Target')},
-          {key: 'source', title: this.$t('Source')},
-          {key: 'nexthop', title: this.$t('Nexthop')},
-          {key: 'metric', title: this.$t('Metric')},
-          {key: 'device', title: this.$t('Device')}
+          { key: 'target', title: this.$t('Target') },
+          { key: 'source', title: this.$t('Source') },
+          { key: 'nexthop', title: this.$t('Nexthop') },
+          { key: 'metric', title: this.$t('Metric') },
+          { key: 'device', title: this.$t('Device') }
         ],
         data: []
       }

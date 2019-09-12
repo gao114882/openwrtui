@@ -1,17 +1,29 @@
 <template>
-  <el-table :data="initscripts" :default-sort="{prop: 'start', order: 'ascending'}">
-    <el-table-column prop="start" :label="$t('Start priority')"></el-table-column>
-    <el-table-column prop="name" :label="$t('Initscript')"></el-table-column>
-    <el-table-column prop="name" label="#">
+  <el-table :data="initscripts"
+            :default-sort="{prop: 'start', order: 'ascending'}">
+    <el-table-column prop="start"
+                     :label="$t('Start priority')"></el-table-column>
+    <el-table-column prop="name"
+                     :label="$t('Initscript')"></el-table-column>
+    <el-table-column prop="name"
+                     label="#">
       <template v-slot="{ row }">
-        <el-button :type="row.enabled ? 'success' : 'warning'" size="mini" @click="EnableDisable(row)">{{ row.enabled ? $t('Enabled') : $t('Disabled') }}</el-button>
+        <el-button :type="row.enabled ? 'success' : 'warning'"
+                   size="mini"
+                   @click="EnableDisable(row)">{{ row.enabled ? $t('Enabled') : $t('Disabled') }}</el-button>
       </template>
     </el-table-column>
     <el-table-column label="#">
       <template v-slot="{ row }">
-        <el-button type="primary" size="mini" @click="action(row, 'start')">{{ $t('Start') }}</el-button>
-        <el-button type="primary" size="mini" @click="action(row, 'restart')">{{ $t('Restart') }}</el-button>
-        <el-button type="danger" size="mini" @click="action(row, 'stop')">{{ $t('Stop') }}</el-button>
+        <el-button type="primary"
+                   size="mini"
+                   @click="action(row, 'start')">{{ $t('Start') }}</el-button>
+        <el-button type="primary"
+                   size="mini"
+                   @click="action(row, 'restart')">{{ $t('Restart') }}</el-button>
+        <el-button type="danger"
+                   size="mini"
+                   @click="action(row, 'stop')">{{ $t('Stop') }}</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -29,7 +41,7 @@ export default {
   methods: {
     load() {
       this.$system.initList().then(initscripts => {
-        this.initscripts = initscripts.filter(item => typeof(item.start) !== 'undefined');
+        this.initscripts = initscripts.filter(item => typeof (item.start) !== 'undefined');
       });
     },
     EnableDisable(init) {

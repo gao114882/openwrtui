@@ -1,12 +1,23 @@
 <template>
   <div>
-    <div style="visibility: hidden"><slot></slot></div>
-    <el-form ref="form" label-width="280px" :model="form" :rules="rules" :disabled="readonly" @validate="onValidate">
+    <div style="visibility: hidden">
+      <slot></slot>
+    </div>
+    <el-form ref="form"
+             label-width="280px"
+             :model="form"
+             :rules="rules"
+             :disabled="readonly"
+             @validate="onValidate">
       <uci-form-body></uci-form-body>
     </el-form>
     <el-button-group style="margin-right: 50px; float: right">
-      <el-button :disabled="readonly" type="primary" @click="apply">{{ $t('Save & Apply') }}</el-button>
-      <el-button :disabled="readonly" type="warning" @click="reset">{{ $t('Reset') }}</el-button>
+      <el-button :disabled="readonly"
+                 type="primary"
+                 @click="apply">{{ $t('Save & Apply') }}</el-button>
+      <el-button :disabled="readonly"
+                 type="warning"
+                 @click="reset">{{ $t('Reset') }}</el-button>
     </el-button-group>
   </div>
 </template>
@@ -62,7 +73,7 @@ export default {
     addProp(prop, data) {
       this.$set(this.form, prop, data.value);
       this.$set(this.rules, prop, data.rules);
-      this.$set(this.validates, prop, {valid: true, tab: data.tab});
+      this.$set(this.validates, prop, { valid: true, tab: data.tab });
     },
     delProp(prop) {
       this.$delete(this.form, prop);

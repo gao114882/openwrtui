@@ -1,14 +1,40 @@
 <template>
-  <el-tabs v-if="switchs.length > 0" :value="switchs[0].name">
-    <el-tab-pane v-for="s in switchs" :key="s.name" :name="s.name" :label="switchTitle(s)">
-      <uci-form config="network" :apply-timeout="15">
+  <el-tabs v-if="switchs.length > 0"
+           :value="switchs[0].name">
+    <el-tab-pane v-for="s in switchs"
+                 :key="s.name"
+                 :name="s.name"
+                 :label="switchTitle(s)">
+      <uci-form config="network"
+                :apply-timeout="15">
         <uci-section :name="s.sid">
-          <uci-option-switch v-if="s.attrs['enable_vlan']" :label="$t('Enable VLAN functionality')" name="enable_vlan"></uci-option-switch>
-          <uci-option-switch v-if="s.attrs['enable_learning']" :label="$t('Enable learning and aging')" name="enable_learning"></uci-option-switch>
+          <uci-option-switch v-if="s.attrs['enable_vlan']"
+                             :label="$t('Enable VLAN functionality')"
+                             name="enable_vlan"></uci-option-switch>
+          <uci-option-switch v-if="s.attrs['enable_learning']"
+                             :label="$t('Enable learning and aging')"
+                             name="enable_learning"></uci-option-switch>
         </uci-section>
-        <uci-section title="VLAN" type="switch_vlan" :filter="filterVlanSection" table addable :add="addVlanSection" :options="{swname: s.name, num_vlans: s.num_vlans, max_vid: s.max_vid}">
-          <uci-option-input label="VLAN ID" name="vlan" :rules="vidValidator" required></uci-option-input>
-          <uci-option-list v-for="(port, i) in s.ports" :key="i" :header="portLabel(i, port)" :name="'port' + i" :options="switchPortState" initial="n" required :load="loadPort" :save="savePort"></uci-option-list>
+        <uci-section title="VLAN"
+                     type="switch_vlan"
+                     :filter="filterVlanSection"
+                     table
+                     addable
+                     :add="addVlanSection"
+                     :options="{swname: s.name, num_vlans: s.num_vlans, max_vid: s.max_vid}">
+          <uci-option-input label="VLAN ID"
+                            name="vlan"
+                            :rules="vidValidator"
+                            required></uci-option-input>
+          <uci-option-list v-for="(port, i) in s.ports"
+                           :key="i"
+                           :header="portLabel(i, port)"
+                           :name="'port' + i"
+                           :options="switchPortState"
+                           initial="n"
+                           required
+                           :load="loadPort"
+                           :save="savePort"></uci-option-list>
         </uci-section>
       </uci-form>
     </el-tab-pane>
@@ -32,7 +58,7 @@ export default {
       return this.$t('Switch') + `"${info.name}"(${info.model})`;
     },
     vlanTitle(info) {
-      return this.$t('VLANs on-', {name: `"${info.name}"(${info.model})`});
+      return this.$t('VLANs on-', { name: `"${info.name}"(${info.model})` });
     },
     portLabel(n, info) {
       let label = `<span>Port ${n}</span><br/>`;
@@ -95,7 +121,7 @@ export default {
           return;
       }
 
-      return this.$t('VID-ERR-MSG', {max: max});
+      return this.$t('VID-ERR-MSG', { max: max });
     },
     loadPort(sid, self) {
       let ports = this.$uci.get('network', sid, 'ports') || '';
@@ -135,8 +161,8 @@ export default {
       const sections = this.$uci.sections('network', 'switch');
       sections.forEach(s => {
         let batch = [];
-        batch.push(['oui.network', 'switch_info', {switch: s.name}]);
-        batch.push(['oui.network', 'switch_status', {switch: s.name}]);
+        batch.push(['oui.network', 'switch_info', { switch: s.name }]);
+        batch.push(['oui.network', 'switch_status', { switch: s.name }]);
 
         this.$ubus.callBatch(batch).then(rs => {
           const info = rs[0].info;

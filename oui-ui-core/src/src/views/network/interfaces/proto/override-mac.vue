@@ -1,5 +1,9 @@
 <template>
-  <uci-option-input tab="advanced" :label="$t('Override MAC address')" name="macaddr" :placeholder="placeholder" rules="macaddr"></uci-option-input>
+  <uci-option-input tab="advanced"
+                    :label="$t('Override MAC address')"
+                    name="macaddr"
+                    :placeholder="placeholder"
+                    rules="macaddr"></uci-option-input>
 </template>
 
 <script>

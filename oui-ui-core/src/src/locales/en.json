@@ -431,7 +431,7 @@
   "Set interface properties regardless of the link carrier (If set, carrier sense events do not invoke hotplug handlers).": "Set interface properties regardless of the link carrier (If set, carrier sense events do not invoke hotplug handlers).",
   "Time": "Time",
   "Message": "Message",
-  "Enter keywords to filter":"Enter keywords to filter",
+  "Enter keywords to filter": "Enter keywords to filter",
   "Facility-syslog": "Facility",
   "Level": "Level",
   "Datetime": "Datetime",

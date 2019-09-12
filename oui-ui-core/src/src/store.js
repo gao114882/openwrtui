@@ -11,13 +11,13 @@ export default new Vuex.Store({
   },
   mutations: {
     setMenus(state, menus) {
-      state.menus = menus;
+      state.menus = menus
     },
     setLang(state, lang) {
-      state.lang = lang;
+      state.lang = lang
     },
     setHostname(state, hostname) {
-      state.hostname = hostname;
+      state.hostname = hostname
     }
   }
 })
