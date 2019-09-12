@@ -27,7 +27,7 @@ menu "Configuration"
 		config OUI_USE_OUI_NODE
 			bool "OUI node"
 			help
-			  Select this option will be use oUI node version for compile VUE code
+			  Select this option will be use OUI node version for compile VUE code
 
 	endchoice
 	

@@ -2,5 +2,11 @@
     "services": {
         "title": "Services",
         "index": 40
+    },
+    "services/rtsp":{
+        "title": "Rtsp",
+        "acls": [ "services" ],
+        "view": "services/rtsp",
+        "index": 10
     }
 }
