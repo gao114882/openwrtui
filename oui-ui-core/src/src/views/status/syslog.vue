@@ -3,8 +3,9 @@
     <el-input v-model="search"
               size="small"
               :placeholder="$t('Enter keywords to filter')"
-              style="margin-bottom: 20px; width: 200px;" />
-    <el-table :data="syslog.filter(log => !search || log.time.includes(search) || log.msg.includes(search))"
+              style="margin-bottom: 20px; width: 200px;">
+    </el-input>
+    <el-table :data="syslog.filter(log => !search || log.datetime.includes(search) || log.msg.includes(search))"
               v-loading="loading"
               :element-loading-text="$t('Loading...')">
       <el-table-column :label="$t('Datetime')"
