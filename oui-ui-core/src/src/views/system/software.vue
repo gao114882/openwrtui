@@ -124,38 +124,36 @@ export default {
         this.$ubus.call('oui.opkg', cmd, { offset, limit, pattern }).then(r1 => {
           const total = r1.total;
           const packages = r1.packages;
-
           if (typeof (offset) === 'undefined')
             offset = 0;
 
           if (typeof (limit) === 'undefined' || limit === 0 || limit > total)
             limit = total;
+          // if (packages.length < limit) {
+          //   const batch = [];
+          //   console.log('11111')
+          //   for (let i = offset + packages.length; i < limit; i += 100)
+          //     batch.push(['oui.opkg', cmd, {
+          //       offset: i,
+          //       limit: (Math.min(i + 100, limit) % 100) || 100,
+          //       pattern
+          //     }]);
 
-          if (packages.length < limit) {
-            const batch = [];
+          //   this.$ubus.callBatch(batch).then(r2 => {
+          //     if (!Array.isArray(r2))
+          //       r2 = [r2];
 
-            for (let i = offset + packages.length; i < limit; i += 100)
-              batch.push(['oui.opkg', cmd, {
-                offset: i,
-                limit: (Math.min(i + 100, limit) % 100) || 100,
-                pattern
-              }]);
+          //     r2.forEach(item => {
+          //       r1.packages.push(...item.packages);
+          //     });
 
-            this.$ubus.callBatch(batch).then(r2 => {
-              if (!Array.isArray(r2))
-                r2 = [r2];
-
-              r2.forEach(item => {
-                r1.packages.push(...item.packages);
-              });
-
-              resolve(r1);
-            }).catch(() => {
-              reject();
-            });
-          } else {
-            resolve(r1);
-          }
+          //     resolve(r1);
+          //   }).catch(() => {
+          //     reject();
+          //   });
+          // } else {
+          resolve(r1);
+          //}
         }).catch(() => {
           reject();
         });
