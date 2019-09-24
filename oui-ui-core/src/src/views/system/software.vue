@@ -47,6 +47,9 @@
                 :element-loading-text="$t('Loading...')"
                 element-loading-spinner="el-icon-loading"
                 element-loading-background="rgba(0, 0, 0, 0.8)">
+        <el-table-column type="index"
+                         width="60px">
+        </el-table-column>
         <el-table-column prop="name"
                          :label="$t('Software-Package')"
                          width="200"></el-table-column>

@@ -623,12 +623,17 @@ local methods = {
                 if f then
                     for line in f:lines() do
                         local week, month, day, time, year, facility, level, msg = line:match("(%S+) +(%S+) +(%d+) +(%S+) +(%d+) +(%S+)%.(%S+) +(.+)$")
-                        log[#log + 1] = {
-                            datetime = string.format("%s %s %s %s %s", week, month, day, time, year),
-                            facility = facility,
-                            level = level,
-                            msg = msg
-                        }
+                        repeat
+                            if week == nil or month == nil or day == nil or time == nil or year == nil then 
+                                break
+                            end
+                            log[#log + 1] = {
+                                datetime = string.format("%s %s %s %s %s", week, month, day, time, year),
+                                facility = facility,
+                                level = level,
+                                msg = msg
+                            }
+                        until true
                     end
                     f:close()
                 end
