@@ -123,7 +123,7 @@ export default {
       return new Promise((resolve, reject) => {
         this.$ubus.call('oui.opkg', cmd, { offset, limit, pattern }).then(r1 => {
           const total = r1.total;
-          const packages = r1.packages;
+          //const packages = r1.packages;
           if (typeof (offset) === 'undefined')
             offset = 0;
 
