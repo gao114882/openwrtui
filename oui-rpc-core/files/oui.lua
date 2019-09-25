@@ -791,6 +791,11 @@ local methods = {
                 write_file("/etc/crontabs/root", msg.data)
             end, {data = libubus.STRING}
         },
+        my_sysupgrade = {
+            function(req, msg)
+                os.execute("params_rw upgrade normal")
+            end, {}
+        },
         led_list = {
             function(req, msg)
                 local leds = {}

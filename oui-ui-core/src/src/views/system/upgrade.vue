@@ -40,10 +40,11 @@
       <el-upload ref="firmware"
                  action="/cgi-bin/oui-upload"
                  :on-success="onUploadFirmwareSuccess"
+                 :on-error="onUploadFirmwareFail"
                  :file-list="fileListFirmware"
                  :auto-upload="false"
                  :limit="1"
-                 :data="{filename: '/tmp/firmware.bin', sessionid: sid}"
+                 :data="{filename: '/data/firmware', sessionid: sid}"
                  style="width: 600px">
         <el-button slot="trigger"
                    size="small"
@@ -76,6 +77,9 @@ export default {
     },
     startUpgrade(keep) {
       return this.$ubus.call('rpc-sys', 'upgrade_start', { keep });
+    },
+    myUpgrade() {
+      return this.$ubus.call('oui.system', 'my_sysupgrade')
     },
     cleanUpgrade() {
       return this.$ubus.call('rpc-sys', 'upgrade_clean');
@@ -131,37 +135,46 @@ export default {
         });
       });
     },
+    onUploadFirmwareFail(err) {
+      this.$message({
+        type: 'error',
+        message: err
+      })
+    },
     onUploadFirmwareSuccess(info) {
-      this.testUpgrade().then(res => {
-        if (res.code === 0) {
-          let title = this.$t('Verify firmware');
-          let content = '<p>' + this.$t('The firmware image was uploaded completely', { btn: this.$t('OK') }) + '</p>'
-          content += '<ul>';
-          content += `<li><strong>${this.$t('Checksum')}: </strong>${info.checksum}</li>`;
+      this.myUpgrade()
 
-          const size = (info.size / 1024 / 1024).toFixed(2);
-          content += `<li><strong>${this.$t('Size')}: </strong>${size} MB</li>`;
-          content += '</ul>';
-          content += `<input id="upgrade-firmware-keep" type="checkbox" checked> ${this.$t('Keep configuration when reflashing')}`;
+      // this.testUpgrade().then(res => {
+      //   console.log('upgrade return:', res)
+      //   if (res.code === 0) {
+      //     let title = this.$t('Verify firmware');
+      //     let content = '<p>' + this.$t('The firmware image was uploaded completely', { btn: this.$t('OK') }) + '</p>'
+      //     content += '<ul>';
+      //     content += `<li><strong>${this.$t('Checksum')}: </strong>${info.checksum}</li>`;
 
-          this.$confirm(content, title, {
-            dangerouslyUseHTMLString: true
-          }).then(() => {
-            const keep = document.getElementById('upgrade-firmware-keep').checked;
-            this.startUpgrade(keep).then(() => {
-              this.$reconnect(this.$t('Upgrading...'));
-            });
-          });
-        } else {
-          const content = this.$t('The uploaded image file does not contain a supported format. Make sure that you choose the generic image format for your platform.');
-          this.$confirm(content, this.$t('Invalid image'), {
-            showCancelButton: false,
-            confirmButtonText: this.$t('Close')
-          }).then(() => {
-            this.cleanUpgrade();
-          });
-        }
-      });
+      //     const size = (info.size / 1024 / 1024).toFixed(2);
+      //     content += `<li><strong>${this.$t('Size')}: </strong>${size} MB</li>`;
+      //     content += '</ul>';
+      //     content += `<input id="upgrade-firmware-keep" type="checkbox" checked> ${this.$t('Keep configuration when reflashing')}`;
+
+      //     this.$confirm(content, title, {
+      //       dangerouslyUseHTMLString: true
+      //     }).then(() => {
+      //       const keep = document.getElementById('upgrade-firmware-keep').checked;
+      //       this.startUpgrade(keep).then(() => {
+      //         this.$reconnect(this.$t('Upgrading...'));
+      //       });
+      //     });
+      //   } else {
+      //     const content = this.$t('The uploaded image file does not contain a supported format. Make sure that you choose the generic image format for your platform.');
+      //     this.$confirm(content, this.$t('Invalid image'), {
+      //       showCancelButton: false,
+      //       confirmButtonText: this.$t('Close')
+      //     }).then(() => {
+      //       this.cleanUpgrade();
+      //     });
+      //   }
+      // });
     }
   },
   created() {
