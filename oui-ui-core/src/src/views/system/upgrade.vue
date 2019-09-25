@@ -24,7 +24,7 @@
                  :file-list="fileListArchive"
                  :auto-upload="false"
                  :limit="1"
-                 :data="{filename: '/tmp/backup.tar.gz', sessionid: sid}"
+                 :data="{filename: '/data/backup.tar.gz', sessionid: sid}"
                  style="width: 600px">
         <el-button slot="trigger"
                    size="small"
@@ -142,39 +142,31 @@ export default {
       })
     },
     onUploadFirmwareSuccess(info) {
-      this.myUpgrade()
+      let title = this.$t('Verify firmware');
+      let content = '<p>' + this.$t('The firmware image was uploaded completely', { btn: this.$t('OK') }) + '</p>'
+      content += '<ul>';
+      content += `<li><strong>${this.$t('Checksum')}: </strong>${info.checksum}</li>`;
 
-      // this.testUpgrade().then(res => {
-      //   console.log('upgrade return:', res)
-      //   if (res.code === 0) {
-      //     let title = this.$t('Verify firmware');
-      //     let content = '<p>' + this.$t('The firmware image was uploaded completely', { btn: this.$t('OK') }) + '</p>'
-      //     content += '<ul>';
-      //     content += `<li><strong>${this.$t('Checksum')}: </strong>${info.checksum}</li>`;
+      const size = (info.size / 1024 / 1024).toFixed(2);
+      content += `<li><strong>${this.$t('Size')}: </strong>${size} MB</li>`;
+      content += '</ul>';
 
-      //     const size = (info.size / 1024 / 1024).toFixed(2);
-      //     content += `<li><strong>${this.$t('Size')}: </strong>${size} MB</li>`;
-      //     content += '</ul>';
-      //     content += `<input id="upgrade-firmware-keep" type="checkbox" checked> ${this.$t('Keep configuration when reflashing')}`;
-
-      //     this.$confirm(content, title, {
-      //       dangerouslyUseHTMLString: true
-      //     }).then(() => {
-      //       const keep = document.getElementById('upgrade-firmware-keep').checked;
-      //       this.startUpgrade(keep).then(() => {
-      //         this.$reconnect(this.$t('Upgrading...'));
-      //       });
-      //     });
-      //   } else {
-      //     const content = this.$t('The uploaded image file does not contain a supported format. Make sure that you choose the generic image format for your platform.');
-      //     this.$confirm(content, this.$t('Invalid image'), {
-      //       showCancelButton: false,
-      //       confirmButtonText: this.$t('Close')
-      //     }).then(() => {
-      //       this.cleanUpgrade();
-      //     });
-      //   }
-      // });
+      this.$confirm(content, title, {
+        dangerouslyUseHTMLString: true
+      }).then(() => {
+        this.myUpgrade()
+        content = this.$t('Reboot now')
+        this.$confirm(content, '', {
+          confirmButtonText: this.$t('OK')
+        }).then(() => {
+          this.$system.reboot().then(() => {
+            this.$reconnect(this.$t('Cancel'));
+          }).catch(() => {
+          });
+        }).catch(() => {
+        });
+      }).catch(() => {
+      });
     }
   },
   created() {
