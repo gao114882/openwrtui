@@ -832,7 +832,7 @@ local methods = {
         },
         backup_restore = {
             function(req, msg)
-                local resp = ubus.call("file", "exec", {command = "sysupgrade", params = {"--restore-backup", '/tmp/backup.tar.gz'}})
+                local resp = ubus.call("file", "exec", {command = "sysupgrade", params = {"--restore-backup", '/data/backup.tar.gz'}})
                 ubus.reply(req, resp)
             end, {}
         },

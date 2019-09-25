@@ -32,10 +32,25 @@ system.getInfo = function() {
       .callBatch([
         ['system', 'info'],
         ['system', 'board'],
-        ['oui.system', 'diskfree']
+        ['oui.system', 'diskfree'],
+        ['product', 'sn'],
+        ['product', 'version'],
+        ['product', 'model'],
+        ['product', 'vendor']
       ])
       .then(r => {
-        resolve(Object.assign({}, r[0], r[1], { disk: r[2] }))
+        resolve(
+          Object.assign(
+            {},
+            r[0],
+            r[1],
+            { disk: r[2] },
+            r[3],
+            r[4],
+            { productmodel: r[5].model },
+            r[6]
+          )
+        )
       })
   })
 }
