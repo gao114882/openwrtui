@@ -45,19 +45,5 @@
     "acls": ["cron"],
     "view": "system/cron",
     "index": 70
-  },
-  "system/leds": {
-    "title": "LED Configuration",
-    "acls": ["system", "leds"],
-    "files": ["/etc/init.d/led"],
-    "view": "system/leds",
-    "index": 80
-  },
-  "system/oui-bwm": {
-    "title": "Bandwidth Monitor",
-    "acls": ["oui-bwm"],
-    "files": ["/etc/config/oui-bwm"],
-    "view": "system/oui-bwm",
-    "index": 81
   }
 }
