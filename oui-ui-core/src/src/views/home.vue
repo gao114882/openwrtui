@@ -1,22 +1,22 @@
 <template>
   <div>
-    <el-row type="flex"
+    <!--<el-row type="flex"
             justify="center"
             align="middle"
             class="oui-home-status-img">
-      <img src="/icons/devices.png"
+     <img src="/icons/devices.png"
            @click="tab = 'devices'" />
       <oui-line :length="statusLineLength"></oui-line>
-      <img src="/icons/router.png"
-           @click="tab = 'router'" />
-      <oui-line :length="statusLineLength"
+    <img src="/icons/router.png"
+         @click="tab = 'router'" />
+     <oui-line :length="statusLineLength"
                 :disconnect="!wanIsUp"></oui-line>
-      <img src="/icons/internet.png"
+     <img src="/icons/internet.png"
            @click="tab = 'internet'" />
-    </el-row>
+    </el-row> -->
     <el-tabs v-model="tab"
              stretch>
-      <el-tab-pane name="devices">
+      <!-- <el-tab-pane name="devices">
         <span slot="label">{{ $t('Terminal devices') + `(${devices.length})` }}</span>
         <el-card :header="$t('Online devices')"
                  style="margin-bottom: 15px;">
@@ -77,7 +77,7 @@
                              :formatter="formatWifiTxRate"></el-table-column>
           </el-table>
         </el-card>
-      </el-tab-pane>
+      </el-tab-pane> -->
       <el-tab-pane name="router">
         <span slot="label">{{ $t('System') }}</span>
         <el-row :gutter="20"
@@ -94,7 +94,7 @@
           </el-col>
         </el-row>
       </el-tab-pane>
-      <el-tab-pane name="internet">
+      <!-- <el-tab-pane name="internet">
         <span slot="label">WAN</span>
         <el-row type="flex"
                 justify="center">
@@ -102,7 +102,7 @@
                     :list="waninfo"
                     style="width: 600px"></CardList>
         </el-row>
-      </el-tab-pane>
+      </el-tab-pane> -->
     </el-tabs>
   </div>
 </template>
@@ -234,68 +234,68 @@ export default {
         this.resourceChart.series[1].data[0].value = ((memory.total - memory.free) / memory.total * 100).toFixed(2);
       });
 
-      this.$network.load().then(() => {
-        const iface = this.$network.getInterface('wan');
-        if (iface !== null) {
-          this.waninfo = [
-            [this.$t('IP Address'), iface.getIPv4Addrs().join(', ')],
-            [this.$t('Gateway'), iface.getIPv4Gateway()],
-            ['DNS', iface.getDNSAddrs().join(', ')]
-          ];
-          this.wanIsUp = iface.isUp()
-        } else {
-          this.waninfo = [
-          ];
-          this.wanIsUp = ''
-        }
+      // this.$network.load().then(() => {
+      //   const iface = this.$network.getInterface('wan');
+      //   if (iface !== null) {
+      //     this.waninfo = [
+      //       [this.$t('IP Address'), iface.getIPv4Addrs().join(', ')],
+      //       [this.$t('Gateway'), iface.getIPv4Gateway()],
+      //       ['DNS', iface.getDNSAddrs().join(', ')]
+      //     ];
+      //     this.wanIsUp = iface.isUp()
+      //   } else {
+      //     this.waninfo = [
+      //     ];
+      //     this.wanIsUp = ''
+      //   }
 
-      });
+      // });
 
-      this.$ubus.call('oui.network', 'dhcp_leases').then(r => {
-        const leasesMap = {};
+      // this.$ubus.call('oui.network', 'dhcp_leases').then(r => {
+      //   const leasesMap = {};
 
-        this.leases = r.leases;
+      //   this.leases = r.leases;
 
-        this.leases.forEach(l => {
-          leasesMap[l.macaddr] = { hostname: l.hostname, ipaddr: l.ipaddr };
-        });
+      //   this.leases.forEach(l => {
+      //     leasesMap[l.macaddr] = { hostname: l.hostname, ipaddr: l.ipaddr };
+      //   });
 
-        this.$ubus.call('oui.network', 'bwm').then(r => {
-          this.devices = r.entries.map(dev => {
-            const lease = leasesMap[dev.macaddr];
+      //   this.$ubus.call('oui.network', 'bwm').then(r => {
+      //     this.devices = r.entries.map(dev => {
+      //       const lease = leasesMap[dev.macaddr];
 
-            dev = { ...dev, txrate: 0, rxrate: 0 };
-            dev.tx = this.calcDevFlow(dev.tx);
-            dev.rx = this.calcDevFlow(dev.rx);
+      //       dev = { ...dev, txrate: 0, rxrate: 0 };
+      //       dev.tx = this.calcDevFlow(dev.tx);
+      //       dev.rx = this.calcDevFlow(dev.rx);
 
-            const ldev = this.devicesMap[dev.macaddr];
-            if (ldev) {
-              dev.txrate = '%mB/s'.format((dev.tx - ldev.tx) / 2);
-              dev.rxrate = '%mB/s'.format((dev.rx - ldev.rx) / 2);
-            }
+      //       const ldev = this.devicesMap[dev.macaddr];
+      //       if (ldev) {
+      //         dev.txrate = '%mB/s'.format((dev.tx - ldev.tx) / 2);
+      //         dev.rxrate = '%mB/s'.format((dev.rx - ldev.rx) / 2);
+      //       }
 
-            this.devicesMap[dev.macaddr] = { tx: dev.tx, rx: dev.rx };
+      //       this.devicesMap[dev.macaddr] = { tx: dev.tx, rx: dev.rx };
 
-            if (lease)
-              dev.hostname = lease.hostname;
+      //       if (lease)
+      //         dev.hostname = lease.hostname;
 
-            return dev;
-          });
-        });
+      //       return dev;
+      //     });
+      //   });
 
-        this.$wireless.getAssoclist().then(assoclist => {
-          this.assoclist = assoclist.map(sta => {
-            const lease = leasesMap[sta.mac.toLowerCase()];
-            if (lease)
-              sta.host = `${lease.hostname} (${lease.ipaddr})`
-            return sta;
-          });
-        });
-      });
+      //   this.$wireless.getAssoclist().then(assoclist => {
+      //     this.assoclist = assoclist.map(sta => {
+      //       const lease = leasesMap[sta.mac.toLowerCase()];
+      //       if (lease)
+      //         sta.host = `${lease.hostname} (${lease.ipaddr})`
+      //       return sta;
+      //     });
+      //   });
+      // });
 
-      this.$ubus.call('oui.network', 'dhcp6_leases').then(r => {
-        this.leases6 = r.leases;
-      });
+      // this.$ubus.call('oui.network', 'dhcp6_leases').then(r => {
+      //   this.leases6 = r.leases;
+      // });
     }
   }
 }
