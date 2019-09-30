@@ -2,7 +2,7 @@
   <div>
     <el-aside class="asside-nav">
       <div class="logo-name">
-        <router-link to="/">{{ hostname }}</router-link>
+        <router-link to="/">SenseTime</router-link>
       </div>
       <el-menu ref="navmenu"
                :default-active="$route.path"
